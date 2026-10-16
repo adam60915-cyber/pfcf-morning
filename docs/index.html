@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>統一期貨 每日數據</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #13233F;
+    --ink-soft: #5A6B85;
+    --paper: #EDF1F5;
+    --sheet: #FFFFFF;
+    --rule: #CAD4DF;
+    --up: #C8102E;
+    --font: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --num: "Barlow Condensed", "Arial Narrow", sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #E4EAF2; --ink-soft: #93A3BA; --paper: #0F1A2C; --sheet: #FFFFFF; --rule: #2A3A55;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #E4EAF2; --ink-soft: #93A3BA; --paper: #0F1A2C; --sheet: #FFFFFF; --rule: #2A3A55;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); line-height: 1.6; }
+
+  header { max-width: 960px; margin: 0 auto; padding: 28px 20px 18px; }
+  .title { font-size: 1rem; font-weight: 500; color: var(--ink-soft); margin: 0; }
+  .date {
+    font-family: var(--num); font-weight: 600; font-size: clamp(3rem, 12vw, 5.5rem);
+    line-height: 1; letter-spacing: -0.01em; margin: 6px 0 10px;
+    border-left: 6px solid var(--up); padding-left: 14px;
+  }
+  .date small { font-family: var(--font); font-size: 0.32em; font-weight: 500; color: var(--ink-soft); margin-left: 10px; }
+  .meta { font-size: 0.875rem; color: var(--ink-soft); margin: 0; }
+
+  nav {
+    position: sticky; top: 0; z-index: 5; background: var(--paper);
+    padding-top: env(safe-area-inset-top, 0px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .rail { max-width: 960px; margin: 0 auto; display: flex; gap: 6px; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail a {
+    flex: 0 0 auto; min-width: 40px; height: 40px; display: grid; place-items: center;
+    font-family: var(--num); font-size: 1.15rem; font-weight: 500;
+    color: var(--ink); text-decoration: none; border: 1px solid var(--rule); border-radius: 4px;
+  }
+  .rail a:hover, .rail a:focus-visible { border-color: var(--ink); outline: none; }
+
+  .rail .group { flex: 0 0 auto; display: flex; gap: 6px; align-items: center; }
+  .rail .group + .group { margin-left: 8px; padding-left: 12px; border-left: 1px solid var(--rule); }
+  .rail a.label { font-family: var(--font); font-size: 0.875rem; font-weight: 700; padding: 0 12px; background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .grp { margin-bottom: 44px; }
+  .grp > h2 {
+    display: flex; align-items: center; gap: 10px; margin: 0 4px 18px;
+    font-size: 1.35rem; font-weight: 700; letter-spacing: 0.04em;
+  }
+  .grp > h2::before { content: ""; width: 10px; height: 10px; background: var(--up); border-radius: 50%; }
+  .grp > h2 .d { font-family: var(--num); font-weight: 500; font-size: 1.2rem; color: var(--ink-soft); letter-spacing: 0; }
+  .rail .tag { flex: 0 0 auto; font-size: 0.75rem; font-weight: 700; color: var(--ink-soft); padding: 0 2px 0 4px; align-self: center; }
+
+  section { margin-bottom: 36px; }
+  section h3 {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+    font-size: 1.15rem; font-weight: 700; margin: 0 4px 12px; padding-bottom: 8px; border-bottom: 2px solid var(--ink);
+  }
+  section h3 .d { font-family: var(--num); font-weight: 500; font-size: 1.1rem; color: var(--ink-soft); }
+  section h3 .stale { font-size: 0.8rem; font-weight: 500; color: var(--up); }
+
+  main { max-width: 960px; margin: 0 auto; padding: 20px 12px 48px; }
+  figure { margin: 0 0 22px; }
+  figure a { display: block; background: var(--sheet); border-radius: 2px; box-shadow: 0 1px 0 var(--rule); }
+  figure a:focus-visible { outline: 3px solid var(--up); outline-offset: 3px; }
+  figure img { display: block; width: 100%; height: auto; }
+  figcaption { font-family: var(--num); font-size: 1rem; color: var(--ink-soft); padding: 6px 4px 0; }
+
+  .notice { padding: 40px 20px; text-align: center; color: var(--ink-soft); }
+  footer { max-width: 960px; margin: 0 auto; padding: 0 20px 40px; font-size: 0.8rem; color: var(--ink-soft); }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<header>
+  <p class="title" id="site-title">統一期貨 ‧ 每日數據</p>
+  <div class="date" id="date">載入中</div>
+  <p class="meta" id="meta"></p>
+</header>
+<nav aria-label="跳到第幾張"><div class="rail" id="rail"></div></nav>
+<main id="list"><p class="notice">正在讀取最新資料…</p></main>
+<footer>資料來源：<a href="https://www.pfcf.com.tw/report/l/24" target="_blank" rel="noopener">統一期貨 每日數據大整理</a>。點圖片可開啟原圖放大。</footer>
+
+<script>
+(async () => {
+  const $ = id => document.getElementById(id);
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmt = d => d.replaceAll("-", "/");
+  try {
+    const res = await fetch("data/latest.json?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    const reports = data.reports || [];
+    if (!reports.length) throw new Error("empty");
+
+    const latest = reports.map(r => r.date).sort().pop();
+    const [yy, mm, dd] = latest.split("-").map(Number);
+    const wk = "日一二三四五六"[new Date(Date.UTC(yy, mm - 1, dd)).getUTCDay()];
+    const total = reports.reduce((n, r) => n + r.pages.length, 0);
+    $("date").innerHTML = fmt(latest) + "<small>星期" + wk + "</small>";
+    $("meta").textContent = reports.length + " 份報告 ‧ 共 " + total + " 張圖　更新於 " + data.updated_at;
+    const siteTitle = data.site_title || "統一期貨 ‧ 每日數據";
+    $("site-title").textContent = siteTitle;
+    document.title = siteTitle.replace(/^統一期貨\s*‧\s*/, "") + " " + latest;
+
+    // 依「盤前／盤後」分組；較新的那組排上面，同一天則盤後在上
+    const order = ["盤後", "盤前"];
+    const groups = [];
+    for (const r of reports) {
+      const name = r.group || "盤後";
+      let g = groups.find(x => x.name === name);
+      if (!g) groups.push(g = { name, items: [] });
+      g.items.push(r);
+    }
+    groups.forEach(g => g.latest = g.items.map(r => r.date).sort().pop());
+    groups.sort((a, b) => b.latest.localeCompare(a.latest) || order.indexOf(a.name) - order.indexOf(b.name));
+
+    $("rail").innerHTML = groups.map(g => g.items.map((r, k) => {
+      const tag = k === 0 && groups.length > 1 ? `<span class="tag">${esc(g.name)}</span>` : "";
+      const nums = r.pages.length > 1
+        ? r.pages.map((_, i) => `<a href="#${r.id}-${i + 1}">${i + 1}</a>`).join("") : "";
+      return `<span class="group">${tag}<a class="label" href="#${r.id}">${esc(r.short || r.name)}</a>${nums}</span>`;
+    }).join("")).join("");
+
+    let eager = 2;
+    const renderReport = (r, groupLatest) => {
+      const v = "?v=" + encodeURIComponent(r.roc_date);
+      const stale = r.date < groupLatest ? '<span class="stale">尚未更新</span>' : "";
+      const figs = r.pages.map((src, i) => {
+        const load = eager-- > 0 ? "eager" : "lazy";
+        const cap = r.pages.length > 1 ? `<figcaption>${i + 1} / ${r.pages.length}</figcaption>` : "";
+        return `<figure id="${r.id}-${i + 1}">
+          <a href="${src + v}" target="_blank" rel="noopener" aria-label="開啟${esc(r.name)}第 ${i + 1} 張原圖">
+            <img src="${src + v}" alt="${esc(r.name)} 第 ${i + 1} 張" loading="${load}">
+          </a>${cap}
+        </figure>`;
+      }).join("");
+      return `<section id="${r.id}"><h3>${esc(r.name)}<span class="d">${fmt(r.date)}</span>${stale}</h3>${figs}</section>`;
+    };
+    $("list").innerHTML = groups.map(g =>
+      `<div class="grp"><h2>${esc(g.name)}數據<span class="d">${fmt(g.latest)}</span></h2>${g.items.map(r => renderReport(r, g.latest)).join("")}</div>`
+    ).join("");
+  } catch (e) {
+    $("date").textContent = "暫無資料";
+    $("list").innerHTML = '<p class="notice">目前讀不到資料。請稍後重新整理，或直接前往下方統一期貨官網查看。</p>';
+  }
+})();
+</script>
+</body>
+</html>
