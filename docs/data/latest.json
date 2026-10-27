@@ -1,31 +1,31 @@
 {
   "site_title": "統一期貨 ‧ 每日盤前數據",
-  "updated_at": "2026-10-22 08:14",
+  "updated_at": "2026-10-27 08:18",
   "reports": [
     {
-      "title": "盤前數據_夜盤期權籌碼快報 1151022",
-      "src_url": "https://www.pfcf.com.tw/photo/article/4133/file23852.png",
-      "date": "2026-10-22",
-      "roc_date": "1151022",
+      "title": "盤前數據_夜盤期權籌碼快報 1151027",
+      "src_url": "https://www.pfcf.com.tw/photo/article/4133/file23870.jpg",
+      "date": "2026-10-27",
+      "roc_date": "1151027",
       "id": "night",
       "name": "夜盤期權籌碼快報",
       "short": "夜盤籌碼",
       "group": "盤前",
       "pages": [
-        "data/night/p01.png"
+        "data/night/p01.jpg"
       ]
     },
     {
-      "title": "盤前晨報_國內晨間快報 1151022",
-      "src_url": "https://www.pfcf.com.tw/photo/article/3596/file23853.png",
-      "date": "2026-10-22",
-      "roc_date": "1151022",
+      "title": "盤前晨報_國內晨間快報 1151027",
+      "src_url": "https://www.pfcf.com.tw/photo/article/3596/file23871.jpg",
+      "date": "2026-10-27",
+      "roc_date": "1151027",
       "id": "morning",
       "name": "國內晨間快報",
       "short": "晨間快報",
       "group": "盤前",
       "pages": [
-        "data/morning/p01.png"
+        "data/morning/p01.jpg"
       ]
     }
   ]
